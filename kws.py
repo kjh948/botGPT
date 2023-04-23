@@ -22,7 +22,6 @@ from pocketsphinx import LiveSpeech
 def wait_keyword():
     # global speech
     speech = LiveSpeech(lm=False, keyphrase='maria', kws_threshold=1e-14)
-    
     for phrase in speech:
         print(phrase)
         phrase.segments(detailed=True)

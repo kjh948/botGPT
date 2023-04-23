@@ -5,6 +5,7 @@ import signal
 import sys
 import POE
 import tts
+import os
 
 asr = sr.Recognizer()
 
@@ -22,9 +23,17 @@ def run_once():
     try:
         str = asr.recognize_google(audio, language='ko-KR')
         print(str)
+        proc = subprocess.Popen('play sound/working.mp3 repeat 1000', shell=True, stdout=subprocess.PIPE    )
+        print("pid = ", proc.pid)
         prompt = "한문장으로 대답해주세요. "
         response = POE.ask(prompt + str)
         print("what gpt said: "+response)
+        # os.killpg(os.getpgid(proc.pid), signal.SIGTERM)  # Send the signal to all the process groups
+        # proc.kill()
+        # proc.wait()
+        # subprocess.check_call("kill -9 $(ps -ef | grep 'play sound' | awk '{print $2}')", shell=True)
+        os.system('./kill_sound.sh')
+
         tts.runtts_google("네네. "+response)
     except:
         subprocess.check_call('play sound/error.mp3', shell=True,stderr=subprocess.STDOUT)
@@ -40,4 +49,3 @@ if __name__ == "__main__":
 
     while 1:
         run_once()
-         
