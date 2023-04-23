@@ -10,7 +10,8 @@ asr = sr.Recognizer()
 
 def run_once():
     print("waiting wakeup word")
-    # kws.wait_keyword()
+    kws.wait_keyword()
+    subprocess.check_call('play sound/wakeup.mp3', shell=True,stderr=subprocess.STDOUT)
     try:
         subprocess.check_call('adinrec -lv 1000 -zc 200 rec.wav', shell=True,stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
@@ -26,6 +27,7 @@ def run_once():
         print("what gpt said: "+response)
         tts.runtts_google("네네. "+response)
     except:
+        subprocess.check_call('play sound/error.mp3', shell=True,stderr=subprocess.STDOUT)
         str = 'ERROR'
         print( "can't understand")
         return

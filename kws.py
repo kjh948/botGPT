@@ -2,10 +2,11 @@ from pocketsphinx import LiveSpeech
 
 
 # speech = LiveSpeech(lm=False,  kws='voice_cmd.kwlist', dic='voice_cmd.dic')
-# speech = LiveSpeech(lm=False, keyphrase='marie', kws_threshold=1e-20)
+# speech = LiveSpeech(lm=False, keyphrase='maria', kws_threshold=1e-17)
 # for phrase in speech:
-#     print(speech.segments(detailed=False))
-
+#     print(phrase)
+#     # print(speech.segments(detailed=True))
+#     speech.segments(detailed=True)
 # while(1):
 #     try:
 #         for phrase in speech:
@@ -19,10 +20,13 @@ from pocketsphinx import LiveSpeech
 #     print(phrase.segments(detailed=False))
 
 def wait_keyword():
-    speech = LiveSpeech(lm=False, keyphrase='marie', kws_threshold=1e-20)
+    # global speech
+    speech = LiveSpeech(lm=False, keyphrase='maria', kws_threshold=1e-14)
     
     for phrase in speech:
+        print(phrase)
         phrase.segments(detailed=True)
+        return
 
 
 if __name__ == "__main__":
