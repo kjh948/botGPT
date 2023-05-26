@@ -3,11 +3,13 @@ import subprocess  # needed to run external program raspistill
 import speech_recognition as sr
 import signal
 import sys
-import POE
+import poe_chatgpt
 import tts
 import os
-
+import bard
 asr = sr.Recognizer()
+
+useBard = 1
 
 def run_once():
     print("waiting wakeup word")
@@ -26,7 +28,11 @@ def run_once():
         proc = subprocess.Popen('play sound/working.mp3 repeat 1000', shell=True, stdout=subprocess.PIPE    )
         print("pid = ", proc.pid)
         prompt = "한문장으로 대답해주세요. "
-        response = POE.ask(prompt + str)
+        if useBard:
+            response = bard.ask(prompt + str)
+        else:
+            response = poe_chatgpt.ask(prompt + str)
+
         print("what gpt said: "+response)
         # os.killpg(os.getpgid(proc.pid), signal.SIGTERM)  # Send the signal to all the process groups
         # proc.kill()
